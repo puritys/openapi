@@ -1,0 +1,28 @@
+openapi: 3.0.1
+info:
+  title: The user API
+  version: "1"
+
+components:
+  schemas:
+    GeneralResponse:
+      required:
+      - content
+      - code
+      type: object
+      properties:
+        content:
+          type: string
+          example: ""
+        code:
+          type: string
+    User:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string

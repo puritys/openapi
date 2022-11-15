@@ -1,0 +1,25 @@
+debug: true
+server:
+  port: 8081
+
+# https://springdoc.org/
+springdoc:
+  swagger-ui:
+    enabled: true
+    use-root-path: true
+    name: swagger
+    # http://localhost:8081/api/static/swagger-ui/index.html
+    path: /api/static/swagger-ui.html
+    urls:
+      - name: user
+        url: /user.yaml
+      - name: image
+        url: /image.yaml
+spring:
+  jackson:
+    default-property-inclusion: NON_NULL
+    deserialization:
+      read_unknown_enum_values_using_default_value: true
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER

@@ -1,0 +1,42 @@
+openapi: 3.0.1
+info:
+  title: The user API
+  version: "1"
+servers:
+- url: /api/v1
+paths:
+  /users/{userId}:
+    get:
+      operationId: getUser
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: '^[0-9a-zA-Z\-]+$'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yaml#/components/schemas/User'
+  /users:
+    post:
+      operationId: createUser
+      requestBody:
+        description: |
+          payload example
+        content:
+          application/json:
+            schema:
+              $ref: 'components.yaml#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yaml#/components/schemas/User'

@@ -1,0 +1,115 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.5.3'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id "org.openapi.generator" version "6.2.0"
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-jetty'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+//    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.8'
+
+
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.3'
+    implementation 'org.hibernate:hibernate-validator:8.0.0.Final'
+
+    implementation 'com.typesafe:config:1.4.2'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+}
+
+group = 'com.puritys'
+version = '0.0.1-SNAPSHOT'
+description = 'test'
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+
+sourceSets {
+    main {
+        java.srcDirs = ['src/main/java', "${buildDir}/generated/openapi/src/main/java"]
+    }
+    test {
+        java.srcDirs = ['src/test/java']
+    }
+}
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+jar {
+    enabled = true
+}
+
+springBoot {
+    mainClassName = 'com.puritys.Application'
+}
+
+
+
+
+// To generate openapi
+import org.apache.commons.io.FilenameUtils
+def specDir = "${rootDir}/src/main/resources/static/"
+def openApiSpecs = fileTree(specDir).matching {
+    include '*.yaml'
+}
+def buildSourceArray = []
+
+openApiSpecs.each {
+  File file ->
+      def filename = FilenameUtils.removeExtension(file.getName())
+      def fullFilename = file.getName()
+      def openApiGenerate = "openApiGenerateCovenant"  + file.getName()
+      if (fullFilename.equals("components.yaml")) {
+          return;
+      }
+      println ">>> Creating open-api generator task with name: $openApiGenerate for spec. at: $fullFilename <<<"
+      task "build${filename.capitalize()}Resources"(
+          group: 'openapi',
+          type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+      ) {
+        verbose = true
+        generatorName = "spring"
+        inputSpec = specDir + fullFilename
+        outputDir = "$buildDir/generated/openapi".toString()
+        apiPackage = "com.puritys.spring.api"
+        //invokerPackage = "org.openapi.example.invoker"
+        modelPackage = "com.puritys.spring.model"
+        println "inputSpec = $inputSpec"
+        configOptions = [
+            configPackage: "com.puritys.spring.configuration",
+            delegatePattern: "true",
+            useBeanValidation: "true",
+            sortParamsByRequiredFlag: "false"
+        ]
+      }
+      buildSourceArray << "build${filename.capitalize()}Resources"
+
+}
+
+task buildAllResource(
+        dependsOn: buildSourceArray,
+        group: 'openapi'
+) {
+    def styler = 'black red green yellow blue magenta cyan white'
+            .split().toList().withIndex(30)
+            .collectEntries { key, val -> [(key) : { "\033[${val}m${it}\033[0m" }] }
+    doLast {
+        println '-------------- bulid openapi resources --------------'
+        println "${styler['yellow']('[WARN] If the sepc yaml files have been changed, clean the build directory first')}"
+    }
+}
+compileJava.dependsOn tasks.buildAllResource
