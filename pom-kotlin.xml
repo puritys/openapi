@@ -12,6 +12,8 @@
         <version>2.7.5</version>
     </parent>
     <properties>
+        <java.version>11</java.version>
+        <kotlin.version>1.7.21</kotlin.version>
         <spring-boot.version>2.7.5</spring-boot.version>
     </properties>
 
@@ -86,7 +88,16 @@
             <artifactId>config</artifactId>
             <version>1.4.2</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib-jdk8</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>2.1.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -118,7 +129,7 @@
                         </goals>
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/static/user.yaml</inputSpec>
-                            <generatorName>spring</generatorName>
+                            <generatorName>kotlin-spring</generatorName>
                             <apiPackage>com.puritys.spring.api</apiPackage>
                             <modelPackage>com.puritys.spring.model</modelPackage>
                             <configOptions>
@@ -130,8 +141,8 @@
                                 <hideGenerationTimestamp>false</hideGenerationTimestamp>
                                 <bigDecimalAsString>true</bigDecimalAsString>
                                 <sortParamsByRequiredFlag>false</sortParamsByRequiredFlag>
-                                <!-- enumPropertyNaming is not support if generator is spring -->
-                                <!--enumPropertyNaming>camelCase</enumPropertyNaming-->
+                                <enumPropertyNaming>camelCase</enumPropertyNaming>
+                                <modelMutable>true</modelMutable>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -142,7 +153,7 @@
                         </goals>
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/static/image.yaml</inputSpec>
-                            <generatorName>spring</generatorName>
+                            <generatorName>kotlin-spring</generatorName>
                             <apiPackage>com.puritys.spring.api</apiPackage>
                             <modelPackage>com.puritys.spring.model</modelPackage>
                             <configOptions>
@@ -154,9 +165,68 @@
                                 <hideGenerationTimestamp>false</hideGenerationTimestamp>
                                 <bigDecimalAsString>true</bigDecimalAsString>
                                 <sortParamsByRequiredFlag>false</sortParamsByRequiredFlag>
-                                <!--enumPropertyNaming>camelCase</enumPropertyNaming-->
+                                <enumPropertyNaming>camelCase</enumPropertyNaming>
+                                <modelMutable>true</modelMutable>
                             </configOptions>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <version>${kotlin.version}</version>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/target/generated-sources/openapi/src/main/java</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>test-compile</id>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>java-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>java-test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

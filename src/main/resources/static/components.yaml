@@ -5,6 +5,14 @@ info:
 
 components:
   schemas:
+    UserStatus:
+      type: string
+      title: User Status
+      description: 'the definition of userstatus'
+      enum:
+        - active
+        - inactive
+        - testPending
     GeneralResponse:
       required:
       - content
@@ -26,3 +34,5 @@ components:
           type: string
         name:
           type: string
+        status:
+          $ref: '#/components/schemas/UserStatus'

@@ -15,12 +15,9 @@ mvnRunWithJar:
 	mvn package
 	java -jar target/test-0.0.1-SNAPSHOT.jar
 
+kotlinRun:
+	mvn -f pom-kotlin.xml spring-boot:run
 
-gradleGen:
-	./gradlew openApiGenerate -i
-
-graldeGenHelp:
-	./gradlew openApiGenerator -i
 
 gradleRun:
 	./gradlew bootRun -i

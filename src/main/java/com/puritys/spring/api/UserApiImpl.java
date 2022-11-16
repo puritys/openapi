@@ -29,7 +29,8 @@ public class UserApiImpl implements UsersApiDelegate {
         List<String> fields = Arrays.asList("nickname");
         User user = new User()
             .id(id)
-            .name("John");
+            .name("John")
+            .status(UserStatus.ACTIVE);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
