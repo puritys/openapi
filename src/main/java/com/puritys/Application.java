@@ -5,8 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-//@RestController
-//@EnableAutoConfiguration
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.openapitools", "com.puritys.spring.api" , "com.puritys.spring.configuration"})
 public class Application extends SpringBootServletInitializer {
