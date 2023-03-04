@@ -36,3 +36,25 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/UserStatus'
+
+    Hero:
+      type: object
+      x-implements: ['com.puritys.spring.validation.HeroValidation']
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        weapon:
+          $ref: '#/components/schemas/Weapon'
+
+    Weapon:
+      type: object
+      x-implements: ['com.puritys.spring.validation.WeaponValidation']
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        level:
+          type: integer

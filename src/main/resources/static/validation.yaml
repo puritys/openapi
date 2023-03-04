@@ -1,0 +1,52 @@
+openapi: 3.0.1
+info:
+  title: The user API
+  version: "1"
+servers:
+- url: /api/v1
+paths:
+  # Add validated annotation into interface to do validation
+  /validation/heros:
+    post:
+      operationId: createHero
+      requestBody:
+        description: |
+          payload example
+        content:
+          application/json:
+            schema:
+              $ref: 'components.yaml#/components/schemas/Hero'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yaml#/components/schemas/Hero'
+
+  /validation/heros/{id}:
+    put:
+      operationId: updateHero
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: '^[0-9a-zA-Z\-]+$'
+      requestBody:
+        description: |
+          payload example
+        content:
+          application/json:
+            schema:
+              $ref: 'components.yaml#/components/schemas/Hero'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yaml#/components/schemas/Hero'

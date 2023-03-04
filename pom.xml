@@ -180,6 +180,29 @@
                             </configOptions>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>validation</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/static/validation.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <apiPackage>com.puritys.spring.api</apiPackage>
+                            <modelPackage>com.puritys.spring.model</modelPackage>
+                            <configOptions>
+                                <configPackage>com.puritys.spring.configuration</configPackage>
+                                <sourceFolder>src/main/java</sourceFolder>
+                                <delegatePattern>true</delegatePattern>
+                                <useBeanValidation>true</useBeanValidation>
+                                <performBeanValidation>false</performBeanValidation>
+                                <hideGenerationTimestamp>false</hideGenerationTimestamp>
+                                <bigDecimalAsString>true</bigDecimalAsString>
+                                <sortParamsByRequiredFlag>false</sortParamsByRequiredFlag>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+
                 </executions>
             </plugin>
         </plugins>

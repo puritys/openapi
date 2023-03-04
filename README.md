@@ -20,3 +20,14 @@ Start jetty
 
 Build jar then start jetty with this jar
 - gmake gradleRunWithJar
+
+
+
+Demo Featuers
+--------------
+
+- openapi yaml to swagger
+- multiple openapi yaml
+- Generate exception
+- delegate pattern
+- separate components yaml
