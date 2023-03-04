@@ -1,11 +1,13 @@
 package com.puritys.spring.api;
 
-import com.puritys.spring.api.UsersApiDelegate;
 import com.puritys.spring.model.*;
+import com.puritys.spring.utils.TimeUtil;
 
 import java.lang.RuntimeException;
 
 import java.util.concurrent.Future;
+
+import javax.inject.Inject;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,13 +28,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserApiImpl implements UsersApiDelegate {
 
-    @Autowired CloseableHttpAsyncClient client;
+    @Inject CloseableHttpAsyncClient client;
+    @Autowired TimeUtil timeUtil;
 
     @Override
     public ResponseEntity<User> getUser(String id) {
         User user = new User()
             .id(id)
-            .name("John")
+            .name("John " + Long.toString(timeUtil.now()))
             .status(UserStatus.ACTIVE);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -57,8 +60,15 @@ public class UserApiImpl implements UsersApiDelegate {
         return new ResponseEntity<>(new User(), HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<User> updateUser(String userId, UpdateUser input) {
+        return new ResponseEntity<>(new User(), HttpStatus.OK);
+    }
+
+
     public ResponseEntity<GeneralResponse> exception() {
         throw new RuntimeException("just error");
     }
+
 
 }

@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: The user API
+  title: The image API
   version: "1"
 servers:
 - url: /api/v1

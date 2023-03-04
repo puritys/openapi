@@ -22,6 +22,31 @@ paths:
             application/json:
               schema:
                 $ref: 'components.yaml#/components/schemas/User'
+    put:
+      operationId: updateUser
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: '^[0-9a-zA-Z\-]+$'
+      requestBody:
+        description: |
+          payload example
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yaml#/components/schemas/User'
+
   /users:
     post:
       operationId: createUser
@@ -51,3 +76,14 @@ paths:
             application/json:
               schema:
                 $ref: 'components.yaml#/components/schemas/GeneralResponse'
+
+components:
+  schemas:
+    UpdateUser:
+      allOf:
+        - $ref: 'components.yaml#/components/schemas/User'
+      properties:
+          name:
+            type: string
+            minLength: 1
+            maxLength: 3

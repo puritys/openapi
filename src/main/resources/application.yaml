@@ -15,6 +15,9 @@ springdoc:
         url: /user.yaml
       - name: image
         url: /image.yaml
+      - name: validation
+        url: /validation.yaml
+
 spring:
   jackson:
     default-property-inclusion: NON_NULL

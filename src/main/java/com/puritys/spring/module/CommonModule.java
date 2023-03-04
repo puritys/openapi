@@ -6,6 +6,7 @@ import org.apache.hc.client5.http.impl.async.HttpAsyncClients;
 import org.apache.hc.core5.reactor.IOReactorConfig;
 import org.apache.hc.core5.util.Timeout;
 
+// google guice binding module
 public class CommonModule extends AbstractModule {
 
 
