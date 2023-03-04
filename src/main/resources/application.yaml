@@ -13,8 +13,6 @@ springdoc:
     urls:
       - name: user
         url: /user.yaml
-      - name: image
-        url: /image.yaml
       - name: validation
         url: /validation.yaml
 
