@@ -31,3 +31,4 @@ Demo Featuers
 - Generate exception
 - delegate pattern
 - separate components yaml
+- validation group
